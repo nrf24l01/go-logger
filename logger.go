@@ -33,10 +33,10 @@ func NewLogger(out io.Writer, serviceName string, opts ...LoggerOption) *Logger 
 		},
 		rawLevelIcons: map[Level]string{
 			LevelInfo:    "[i]",
-			LevelSuccess: "[v]",
-			LevelOk:      "[v]",
-			LevelError:   "[e]",
-			LevelWarn:    "[w]",
+			LevelSuccess: "[s]",
+			LevelOk:      "[o]",
+			LevelError:   "[E]",
+			LevelWarn:    "[W]",
 			LevelDebug:   "[d]",
 			LevelTrace:   "[t]",
 			LevelFatal:   "[!]",
@@ -44,7 +44,7 @@ func NewLogger(out io.Writer, serviceName string, opts ...LoggerOption) *Logger 
 		levelIconColors: map[Level]string{
 			LevelInfo:    brightBlue,
 			LevelSuccess: brightGreen,
-			LevelOk:      brightGreen,
+			LevelOk:      green,
 			LevelError:   brightRed,
 			LevelWarn:    brightYellow,
 			LevelDebug:   dim,
@@ -99,14 +99,14 @@ func (lg *Logger) colorizeIcon(level Level) string {
 		return white + padded + reset
 	}
 	color := lg.levelIconColors[level]
-	visiblePadded := fmt.Sprintf("%-4s", raw)
-	return color + visiblePadded + reset
+	visiblePadded := fmt.Sprintf("%-3s", raw)
+	return color + visiblePadded + reset + " "
 }
 
 func (lg *Logger) Log(level Level, lt LogType, message, requestID string) {
 	timestamp := time.Now().Format("15:04:05.000")
-	typeColored := lg.colorizeType(lt)
-	iconColored := lg.colorizeIcon(level)
+	typeColored := lg.colorizeType(lt)    // LogType(db,cache,auth,etc)
+	iconColored := lg.colorizeIcon(level) // Level(debug,info,error,etc)
 
 	parts := []string{
 		timestamp,
