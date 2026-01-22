@@ -22,14 +22,9 @@ func NewLogger(out io.Writer, serviceName string, opts ...LoggerOption) *Logger 
 		out:         out,
 		serviceName: serviceName,
 		typeBgColors: map[LogType]string{
-			TypeAuth:  bgGreen,
-			TypeHTTP:  bgCyan,
-			TypeDB:    bgYellow,
-			TypeCache: bgMagenta,
 			TypeError: bgRed,
 			TypeInfo:  bgWhite,
 			TypeDebug: dim,
-			TypeOther: bgBlue,
 		},
 		rawLevelIcons: map[Level]string{
 			LevelInfo:    "[i]",
