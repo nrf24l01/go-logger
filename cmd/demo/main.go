@@ -10,7 +10,7 @@ func main() {
 	// demo-specific extended types (moved out of package-level log types)
 	auth := gologger.LogType("AUTH")
 	httpType := gologger.LogType("HTTP")
-	db := gologger.LogType("DB")
+	db := gologger.LogType("<DB>")
 	cache := gologger.LogType("CACHE")
 	other := gologger.LogType("OTHER")
 

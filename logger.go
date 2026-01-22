@@ -13,7 +13,6 @@ type Logger struct {
 	typeBgColors    map[LogType]string
 	rawLevelIcons   map[Level]string
 	levelIconColors map[Level]string
-	maxTypeWidth    int
 	customTypes     map[LogType]struct{}
 }
 
@@ -54,25 +53,7 @@ func NewLogger(out io.Writer, serviceName string, opts ...LoggerOption) *Logger 
 			opt(lg)
 		}
 	}
-	lg.updateMaxTypeWidth()
 	return lg
-}
-
-func (lg *Logger) updateMaxTypeWidth() {
-	max := 0
-	for _, lt := range defaultLogTypes {
-		length := len(lt.String())
-		if length > max {
-			max = length
-		}
-	}
-	for lt := range lg.customTypes {
-		length := len(lt.String())
-		if length > max {
-			max = length
-		}
-	}
-	lg.maxTypeWidth = max
 }
 
 func (lg *Logger) colorizeType(lt LogType) string {
@@ -82,7 +63,7 @@ func (lg *Logger) colorizeType(lt LogType) string {
 	if !ok {
 		bg = bgWhite
 	}
-	padded := fmt.Sprintf("%-*s", lg.maxTypeWidth, name)
+	padded := fmt.Sprintf("%s", name)
 	return fmt.Sprintf("%s %s %s", bg, padded, reset)
 }
 
@@ -94,7 +75,7 @@ func (lg *Logger) colorizeIcon(level Level) string {
 		return white + padded + reset
 	}
 	color := lg.levelIconColors[level]
-	visiblePadded := fmt.Sprintf("%-3s", raw)
+	visiblePadded := fmt.Sprintf("%s", raw)
 	return color + visiblePadded + reset + " "
 }
 
