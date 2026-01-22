@@ -1,6 +1,7 @@
 # go-logger
 
 Цветной консольный логгер с уровнями и типами событий.
+![example](/docs/example.png)
 
 ## Запуск демо
 
@@ -13,9 +14,9 @@ go run ./cmd/demo
 ```go
 logger := gologger.NewLogger(
 	os.Stdout,
-	"my-service",
+	"loggodemo",
 	gologger.WithCustomTypes(gologger.LogType("PAYMENT")),
 )
-logger.Log(gologger.LevelInfo, gologger.TypeHTTP, "→ 200 /health 2ms", "req-123")
+logger.Log(gologger.LevelInfo, gologger.LevelInfo, "→ 200 /health 2ms", "req-123")
 logger.Log(gologger.LevelInfo, gologger.LogType("PAYMENT"), "charge completed", "req-124")
 ```
